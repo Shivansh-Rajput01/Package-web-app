@@ -1,46 +1,37 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import Reveal from './Reveal';
 
-// Each slot cycles through packaging-only images
+// Local images — Vite fingerprints these for long-term browser caching
+import img1  from '../assets/images/img1.jpg';
+import img2  from '../assets/images/img2.jpg';
+import img3  from '../assets/images/img3.jpg';
+import img4  from '../assets/images/img4.jpg';
+import img5  from '../assets/images/img5.jpg';
+import img6  from '../assets/images/img6.jpg';
+import img7  from '../assets/images/img7.jpg';
+import img8  from '../assets/images/img8.jpg';
+import img9  from '../assets/images/img9.jpg';
+import img10 from '../assets/images/img10.jpg';
+
+// Preload all gallery images into browser cache immediately
+const allImgs = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
+allImgs.forEach((src) => { const i = new Image(); i.src = src; });
+
+// Each slot cycles through a subset of the local images
 const slotImages = [
-  [
-    { url: 'https://images.unsplash.com/photo-1607166452427-7e4477079cb9?w=1400&q=90', caption: 'E-commerce Shipping Boxes' },
-    { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1400&q=90', caption: 'Kraft Paper Boxes' },
-    { url: 'https://images.unsplash.com/photo-1612103198005-b238154f4590?w=1400&q=90', caption: 'Corrugated Boxes' },
-  ],
-  [
-    { url: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=1400&q=90', caption: 'Branded Packaging' },
-    { url: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1400&q=90', caption: 'Custom Printed Boxes' },
-    { url: 'https://images.unsplash.com/photo-1601598851547-4302969d0614?w=1400&q=90', caption: 'Retail Packaging' },
-  ],
-  [
-    { url: 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=90', caption: 'Warehouse Packaging' },
-    { url: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1400&q=90', caption: 'Delivery Boxes' },
-    { url: 'https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=1400&q=90', caption: 'Mailer Boxes' },
-  ],
-  [
-    { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=90', caption: 'Premium Gift Boxes' },
-    { url: 'https://images.unsplash.com/photo-1607166452427-7e4477079cb9?w=1400&q=90', caption: 'Shipping Boxes' },
-    { url: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=1400&q=90', caption: 'Branded Mailers' },
-  ],
-  [
-    { url: 'https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?w=1400&q=90', caption: 'Eco-Friendly Packaging' },
-    { url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1400&q=90', caption: 'Kraft Boxes' },
-    { url: 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=90', caption: 'Storage Solutions' },
-  ],
-  [
-    { url: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1400&q=90', caption: 'Bulk Delivery Boxes' },
-    { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=90', caption: 'Gift Packaging' },
-    { url: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1400&q=90', caption: 'Custom Box Printing' },
-  ],
+  [{ url: img1,  caption: 'Kraft Paper Boxes' },      { url: img6,  caption: 'Custom Printed Boxes' }],
+  [{ url: img2,  caption: 'E-commerce Shipping' },    { url: img7,  caption: 'Retail Packaging' }],
+  [{ url: img3,  caption: 'Branded Packaging' },      { url: img8,  caption: 'Mailer Boxes' }],
+  [{ url: img4,  caption: 'Warehouse Solutions' },    { url: img9,  caption: 'Storage Solutions' }],
+  [{ url: img5,  caption: 'Delivery Boxes' },         { url: img10, caption: 'Bulk Delivery Boxes' }],
+  [{ url: img6,  caption: 'Premium Gift Boxes' },     { url: img1,  caption: 'Eco-Friendly Packaging' }],
 ];
 
 const STAGGER_MS = 600;
 
 const Gallery = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
   const [slotIndexes, setSlotIndexes] = useState([0, 0, 0, 0, 0, 0]);
 
   useEffect(() => {
@@ -63,7 +54,7 @@ const Gallery = () => {
 
       {/* Header */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 32px', textAlign: 'center', marginBottom: '52px' }}>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
+        <Reveal variant="fadeUp">
           <span style={{ color: '#8B6F47', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '14px' }}>
             Our Products
           </span>
@@ -73,7 +64,7 @@ const Gallery = () => {
           <p style={{ fontSize: '16px', color: '#6B5B3E', maxWidth: '500px', margin: '0 auto', lineHeight: 1.75 }}>
             Explore our diverse range of high-quality packaging boxes designed for every business need.
           </p>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Grid */}
@@ -87,13 +78,7 @@ const Gallery = () => {
           {slotImages.map((pool, i) => {
             const img = pool[slotIndexes[i]];
             return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                style={{ position: 'relative', overflow: 'hidden', borderRadius: '10px' }}
-              >
+              <Reveal key={i} variant="scaleIn" delay={i * 0.07} style={{ position: 'relative', overflow: 'hidden', borderRadius: '10px' }}>
                 <AnimatePresence mode="sync">
                   <motion.img
                     key={img.url}
@@ -117,7 +102,7 @@ const Gallery = () => {
                     {img.caption}
                   </span>
                 </div>
-              </motion.div>
+              </Reveal>
             );
           })}
         </div>

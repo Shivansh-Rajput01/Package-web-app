@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, Clock } from 'lucide-react';
+import Reveal from './Reveal';
 
 const Footer = () => {
   const scrollTo = (id) => {
@@ -22,17 +23,17 @@ const Footer = () => {
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1.4fr 1fr', gap: '48px', marginBottom: '64px', textAlign: 'center' }}>
 
           {/* Brand */}
-          <div className="footer-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+          <Reveal variant="fadeUp" className="footer-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
             <span style={{ fontSize: '28px', fontWeight: 900, letterSpacing: '-0.02em', color: '#FAF7F2' }}>
-              Pack<span style={{ color: '#C4A882' }}>Box</span><span style={{ color: '#8B6F47', fontSize: '34px' }}>.</span>
+              UpTech<span style={{ color: '#C4A882' }}>Work</span><span style={{ color: '#8B6F47', fontSize: '34px' }}>.</span>
             </span>
             <p style={{ color: '#A89880', fontSize: '14px', lineHeight: 1.8, maxWidth: '220px' }}>
               Premium packaging solutions for modern businesses. Quality, sustainability, and reliability.
             </p>
-          </div>
+          </Reveal>
 
           {/* Quick Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Reveal variant="fadeUp" delay={0.1} className="footer-links" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h4 style={{ color: '#FAF7F2', fontSize: '15px', fontWeight: 700, marginBottom: '22px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               Quick Links
             </h4>
@@ -50,29 +51,36 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
 
           {/* Contact */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Reveal variant="fadeUp" delay={0.2} className="footer-contact" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h4 style={{ color: '#FAF7F2', fontSize: '15px', fontWeight: 700, marginBottom: '22px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               Contact
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {[
-                { icon: Mail,  text: 'info@packbox.in' },
-                { icon: Phone, text: '+91 98765 43210' },
+                { icon: Mail,  text: 'Info@uptechwork.com', href: 'mailto:Info@uptechwork.com' },
+                { icon: Phone, text: '+91 87705 60198', href: 'tel:+918770560198' },
+                { icon: Phone, text: '+91 91115 57774', href: 'tel:+919111557774' },
                 { icon: Clock, text: 'Mon–Fri: 9AM – 6PM' },
-              ].map(({ icon: Icon, text }) => (
-                <li key={text} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', color: '#A89880', fontSize: '14px' }}>
+              ].map(({ icon: Icon, text, href }) => (
+                <li key={text} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontSize: '14px' }}>
                   <Icon size={15} style={{ color: '#C4A882', flexShrink: 0 }} />
-                  {text}
+                  {href
+                    ? <a href={href} style={{ color: '#A89880', textDecoration: 'none', transition: 'color 0.2s' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#C4A882'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#A89880'}
+                      >{text}</a>
+                    : <span style={{ color: '#A89880' }}>{text}</span>
+                  }
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
 
           {/* Follow Us */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Reveal variant="fadeUp" delay={0.3} className="footer-follow" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h4 style={{ color: '#FAF7F2', fontSize: '15px', fontWeight: 700, marginBottom: '22px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               Follow Us
             </h4>
@@ -89,16 +97,18 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-          </div>
+          </Reveal>
 
         </div>
 
         {/* Divider + copyright */}
-        <div style={{ borderTop: '1px solid #2C2416', padding: '28px 0', textAlign: 'center' }}>
-          <p style={{ color: '#6B5B3E', fontSize: '13px', margin: 0 }}>
-            &copy; 2026 PackBox. All rights reserved.
-          </p>
-        </div>
+        <Reveal variant="fadeIn" delay={0.2}>
+          <div style={{ borderTop: '1px solid #2C2416', padding: '28px 0', textAlign: 'center' }}>
+            <p style={{ color: '#6B5B3E', fontSize: '13px', margin: 0 }}>
+              &copy; 2026 UpTechWork. All rights reserved.
+            </p>
+          </div>
+        </Reveal>
 
       </div>
     </footer>

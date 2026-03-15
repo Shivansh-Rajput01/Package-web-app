@@ -1,63 +1,54 @@
-﻿import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+﻿import { useEffect } from "react";
 import { Star, Quote } from "lucide-react";
+import Reveal from "./Reveal";
 
 const testimonials = [
   {
     name: "Rahul Sharma",
     company: "Delhi Handicrafts",
-    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&q=80",
-    review: "PackBox ne hamare shipping experience ko bilkul badal diya. Custom branding ke saath hamare customers ko unboxing bahut pasand aati hai. Highly recommended!",
+    review: "Box ki quality ekdum top-notch hai. Cardboard itna strong hai ki transit mein koi bhi damage nahi hota. Aur price bhi market mein sabse competitive hai. Full paisa vasool!",
     rating: 5,
   },
   {
     name: "Priya Mehta",
     company: "Jaipur Jewels",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
-    review: "Bohot hi achi quality ke boxes hain. Hamari jewellery safely deliver hoti hai aur packaging dekh ke customers khush ho jaate hain. Baar baar order karte hain.",
+    review: "Humne 500 custom printed boxes order kiye — printing sharp thi, corners tight the, aur rate bhi reasonable tha. Bulk mein itni achi quality milna mushkil hota hai. Bahut khush hain.",
     rating: 5,
   },
   {
     name: "Amit Verma",
     company: "Mumbai Spices Co.",
-    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
-    review: "Eco-friendly packaging jo strong bhi ho — yahi chahiye tha humein. PackBox ne exactly wahi diya. Bulk orders bhi time pe aate hain, koi complaint nahi.",
+    review: "Corrugated boxes ki thickness aur strength exactly waise hi thi jaise describe kiya gaya tha. Pricing bhi fair hai aur bulk discount ne budget mein bahut help ki. Highly recommend!",
     rating: 5,
   },
   {
     name: "Sneha Iyer",
     company: "Chennai Organics",
-    photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80",
-    review: "Organic products ke liye sahi packaging milna mushkil tha. PackBox ke sustainable boxes ne problem solve kar di. Customers bhi appreciate karte hain.",
+    review: "Eco-friendly kraft boxes order kiye the — quality dekh ke dil khush ho gaya. Na zyada bhaari, na kamzor. Aur cost bhi plastic packaging se zyada nahi thi. Perfect choice!",
     rating: 5,
   },
   {
     name: "Vikram Singh",
-    company: "Ludhiana Textiles",
-    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80",
-    review: "Kapdon ki packaging ke liye perfect boxes. Na zyada bhaari, na kamzor. Delivery mein koi damage nahi aaya abhi tak. PackBox pe full trust hai.",
+    company: "Ludhiana Exports",
+    review: "Pehli baar order kiya toh sample box dekh ke hi confirm kar liya. Material premium tha aur rate bhaav mein tha. Ab regularly bulk orders dete hain — quality consistent rehti hai.",
     rating: 5,
   },
   {
     name: "Ananya Krishnan",
-    company: "Bengaluru Bakes",
-    photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&q=80",
-    review: "Bakery items ke liye custom printed boxes order kiye — quality dekh ke dil khush ho gaya. Branding bilkul sharp hai aur boxes sturdy bhi hain.",
+    company: "Bengaluru Retail Co.",
+    review: "Custom size boxes banwaye the — exact dimensions mile, sealing strong thi, aur per-box cost bhi budget mein fit ho gayi. UpTechWork ka packaging quality pe koi compromise nahi.",
     rating: 5,
   },
   {
     name: "Rohan Gupta",
-    company: "Pune Electronics",
-    photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&q=80",
-    review: "Electronics ke liye strong corrugated boxes chahiye the. PackBox ke boxes mein products bilkul safe rehte hain. Returns bhi kaafi kam ho gayi hain.",
+    company: "Pune Distributors",
+    review: "Double-wall corrugated boxes liye the heavy items ke liye. Boxes ne poora weight handle kiya bina kisi damage ke. Price bhi fair tha considering the strength. Bahut satisfied hain.",
     rating: 5,
   },
   {
     name: "Kavya Nair",
-    company: "Kochi Handlooms",
-    photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80",
-    review: "Handloom sarees ke liye premium packaging chahiye thi. PackBox ne woh diya jo hum chahte the — elegant, strong aur eco-friendly. Customers love it!",
+    company: "Kochi Traders",
+    review: "Box printing quality aur material dono hi excellent hain. Humne 3 baar order kiya hai aur har baar quality same rahi. Pricing transparent hai — koi hidden charges nahi. Trust worthy!",
     rating: 5,
   },
 ];
@@ -67,7 +58,7 @@ const GAP = 20;
 const DURATION = 40; // seconds for one full loop
 
 const TestimonialCard = ({ t }) => (
-  <div style={{
+  <div className="testimonial-card" style={{
     flexShrink: 0,
     width: `${CARD_WIDTH}px`,
     background: 'linear-gradient(145deg, #F5F0E8 0%, #EDE8DC 100%)',
@@ -107,10 +98,16 @@ const TestimonialCard = ({ t }) => (
     {/* Stars + author */}
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <img
-          src={t.photo} alt={t.name}
-          style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #E0D5C5', flexShrink: 0 }}
-        />
+        {/* Initials avatar — no external image needed */}
+        <div style={{
+          width: '42px', height: '42px', borderRadius: '50%', flexShrink: 0,
+          background: 'linear-gradient(135deg, #7A6040, #2C2416)',
+          border: '2px solid #E0D5C5',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '14px', fontWeight: 700, color: '#F5F0E8', letterSpacing: '0.02em',
+        }}>
+          {t.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+        </div>
         <div>
           <p style={{ color: '#2C2416', fontWeight: 700, fontSize: '13.5px', margin: 0, lineHeight: 1.3 }}>{t.name}</p>
           <p style={{ color: '#A89880', fontSize: '11.5px', margin: 0, marginTop: '2px' }}>{t.company}</p>
@@ -127,18 +124,20 @@ const TestimonialCard = ({ t }) => (
 
 // CSS keyframe marquee — no gap issues, perfectly seamless
 const MarqueeRow = ({ items, direction = 'left' }) => {
-  const totalWidth = items.length * (CARD_WIDTH + GAP);
   const animName = direction === 'left' ? 'marqueeLeft' : 'marqueeRight';
 
   return (
     <div style={{ overflow: 'hidden', width: '100%' }}>
-      <div style={{
-        display: 'flex',
-        gap: `${GAP}px`,
-        width: 'max-content',
-        animation: `${animName} ${DURATION}s linear infinite`,
-      }}>
-        {/* Render 3x so there's always content visible */}
+      <div
+        className="marquee-track"
+        style={{
+          display: 'flex',
+          gap: `${GAP}px`,
+          width: 'max-content',
+          animation: `${animName} ${DURATION}s linear infinite`,
+          willChange: 'transform',
+        }}
+      >
         {[...items, ...items, ...items].map((t, i) => (
           <TestimonialCard key={i} t={t} />
         ))}
@@ -148,18 +147,15 @@ const MarqueeRow = ({ items, direction = 'left' }) => {
 };
 
 const Testimonials = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-
   const row1 = testimonials.slice(0, 4);
   const row2 = testimonials.slice(4, 8);
 
   return (
-    <section id="testimonials" style={{ background: '#2C2416', padding: '100px 0 80px', overflow: 'hidden' }} ref={ref}>
+    <section id="testimonials" style={{ background: '#2C2416', padding: '100px 0 80px', overflow: 'hidden' }}>
 
       {/* Header */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 32px', textAlign: 'center', marginBottom: '60px' }}>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
+        <Reveal variant="fadeUp">
           <span style={{ color: '#C4A882', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '14px' }}>
             Testimonials
           </span>
@@ -167,21 +163,16 @@ const Testimonials = () => {
             What Our Clients Say
           </h2>
           <p style={{ fontSize: '16px', color: '#A89880', maxWidth: '480px', margin: '0 auto', lineHeight: 1.75 }}>
-            Join hundreds of satisfied businesses that trust PackBox for their packaging needs.
+            Join hundreds of satisfied businesses that trust UpTechWork for their packaging needs.
           </p>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Marquee rows */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-      >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <MarqueeRow items={row1} direction="left" />
         <MarqueeRow items={row2} direction="right" />
-      </motion.div>
+      </div>
 
     </section>
   );

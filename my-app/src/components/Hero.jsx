@@ -2,6 +2,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Package } from "lucide-react";
 import { useState, useEffect } from "react";
 
+// Local images — imported so Vite fingerprints & caches them
+import img1 from "../assets/images/img1.jpg";
+import img2 from "../assets/images/img2.jpg";
+import img3 from "../assets/images/img3.jpg";
+import img4 from "../assets/images/img4.jpg";
+import img5 from "../assets/images/img5.jpg";
+
 const taglines = [
   "Premium Packaging",
   "Eco-Friendly Boxes",
@@ -11,32 +18,15 @@ const taglines = [
 ];
 
 const slides = [
-  {
-    url: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
-    title: "Kraft Paper Boxes",
-    uses: ["Artisan & handmade goods", "Retail gift packaging", "Subscription box inserts", "Eco-conscious brands"],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9?w=800&q=80",
-    title: "E-commerce Shipping",
-    uses: ["Online store fulfillment", "Last-mile delivery", "Return-friendly packaging", "Multi-item orders"],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&q=80",
-    title: "Branded Packaging",
-    uses: ["Custom logo printing", "Unboxing experience", "Brand identity boost", "Influencer PR boxes"],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1553413077-190dd305871c?w=800&q=80",
-    title: "Warehouse Solutions",
-    uses: ["Bulk storage & stacking", "Inventory management", "B2B wholesale dispatch", "Heavy-duty protection"],
-  },
-  {
-    url: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=80",
-    title: "Delivery Boxes",
-    uses: ["Courier-ready sizing", "Fragile item safety", "Cold-chain logistics", "Same-day delivery"],
-  },
+  { url: img1, title: "Kraft Paper Boxes",      uses: ["Artisan & handmade goods", "Retail gift packaging", "Subscription box inserts", "Eco-conscious brands"] },
+  { url: img2, title: "E-commerce Shipping",    uses: ["Online store fulfillment", "Last-mile delivery", "Return-friendly packaging", "Multi-item orders"] },
+  { url: img3, title: "Branded Packaging",      uses: ["Custom logo printing", "Unboxing experience", "Brand identity boost", "Influencer PR boxes"] },
+  { url: img4, title: "Warehouse Solutions",    uses: ["Bulk storage & stacking", "Inventory management", "B2B wholesale dispatch", "Heavy-duty protection"] },
+  { url: img5, title: "Delivery Boxes",         uses: ["Courier-ready sizing", "Fragile item safety", "Cold-chain logistics", "Same-day delivery"] },
 ];
+
+// Preload all slide images so they're cached before the slider reaches them
+slides.forEach(({ url }) => { const i = new Image(); i.src = url; });
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
@@ -70,9 +60,9 @@ const Hero = () => {
   const next = () => { setDirection(1); setCurrent((p) => (p + 1) % slides.length); };
 
   const variants = {
-    enter: (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
+    enter:  (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (dir) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
+    exit:   (dir) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
   };
 
   return (
@@ -84,14 +74,8 @@ const Hero = () => {
           {/* ── Left content ── */}
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
 
-            {/* Animated tagline pill */}
             <div className="inline-flex items-center gap-3 rounded-full"
-              style={{
-                marginBottom: '40px', padding: '12px 24px',
-                background: '#EDE8DC', border: '2px solid #C4B49A',
-                boxShadow: '0 0 0 4px #EDE8DC, 0 0 0 6px #D4C9B0',
-                animation: 'beigePulse 2s ease-in-out infinite', alignItems: 'center',
-              }}>
+              style={{ marginBottom: '40px', padding: '12px 24px', background: '#EDE8DC', border: '2px solid #C4B49A', boxShadow: '0 0 0 4px #EDE8DC, 0 0 0 6px #D4C9B0', animation: 'beigePulse 2s ease-in-out infinite', alignItems: 'center' }}>
               <span style={{ width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0, background: '#8B6F47', display: 'block', animation: 'dotBlink 1.4s ease-in-out infinite' }} />
               <div style={{ overflow: 'hidden', height: '20px', minWidth: '170px', display: 'flex', alignItems: 'center' }}>
                 <AnimatePresence mode="wait">
@@ -136,18 +120,13 @@ const Hero = () => {
           {/* ── Right — image slider ── */}
           <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative">
 
-            {/* Slider frame */}
-            <div
-              className="relative overflow-hidden"
-              style={{ borderRadius: '20px', boxShadow: '0 20px 60px rgba(44,36,22,0.18), 0 4px 16px rgba(44,36,22,0.08)', border: '1px solid #D4C9B0', aspectRatio: '4/3' }}
-            >
-              {/* Image + overlay zone — hover only here */}
-              <div
-                style={{ position: 'absolute', inset: 0 }}
+            <div className="relative overflow-hidden"
+              style={{ borderRadius: '20px', boxShadow: '0 20px 60px rgba(44,36,22,0.18), 0 4px 16px rgba(44,36,22,0.08)', border: '1px solid #D4C9B0', aspectRatio: '4/3' }}>
+
+              <div style={{ position: 'absolute', inset: 0 }}
                 onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-              >
-                {/* Slides */}
+                onMouseLeave={() => setHovered(false)}>
+
                 <AnimatePresence initial={false} custom={direction} mode="popLayout">
                   <motion.img
                     key={current}
@@ -163,16 +142,11 @@ const Hero = () => {
                   />
                 </AnimatePresence>
 
-                {/* Beige hover overlay — centered content, lighter opacity */}
                 <AnimatePresence>
                   {hovered && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      style={{ position: 'absolute', inset: 0, background: 'rgba(237,232,220,0.72)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', backdropFilter: 'blur(1px)' }}
-                    >
+                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+                      style={{ position: 'absolute', inset: 0, background: 'rgba(237,232,220,0.72)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px', backdropFilter: 'blur(1px)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                         <Package size={18} style={{ color: '#8B6F47' }} />
                         <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8B6F47' }}>Use Cases</span>
@@ -193,7 +167,6 @@ const Hero = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Prev / Next arrows — outside hover zone */}
               <button onClick={prev}
                 style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', width: '38px', height: '38px', borderRadius: '50%', border: '1.5px solid #C4B49A', background: 'rgba(245,240,232,0.92)', color: '#6B5B3E', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background 0.2s, border-color 0.2s, box-shadow 0.2s', boxShadow: '0 2px 8px rgba(44,36,22,0.1)', zIndex: 10 }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#EDE8DC'; e.currentTarget.style.borderColor = '#8B6F47'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(139,111,71,0.25)'; }}
@@ -206,9 +179,8 @@ const Hero = () => {
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(245,240,232,0.92)'; e.currentTarget.style.borderColor = '#C4B49A'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(44,36,22,0.1)'; }}>
                 <ChevronRight size={17} />
               </button>
-
-
             </div>
+
             <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '20px' }}>
               {slides.map((_, i) => (
                 <button key={i} onClick={() => goTo(i)}
@@ -217,7 +189,6 @@ const Hero = () => {
               ))}
             </div>
 
-            {/* Decorative blobs */}
             <div className="absolute -bottom-6 -right-6 w-64 h-64 rounded-full blur-3xl opacity-40 -z-10" style={{ backgroundColor: '#D4C9B0' }} />
             <div className="absolute -top-6 -left-6 w-64 h-64 rounded-full blur-3xl opacity-25 -z-10" style={{ backgroundColor: '#C4B49A' }} />
           </motion.div>

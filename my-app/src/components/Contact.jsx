@@ -1,11 +1,8 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Send, Mail, Phone, MapPin } from 'lucide-react';
+import Reveal from './Reveal';
 
 const Contact = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,22 +28,34 @@ const Contact = () => {
   };
 
   const infoItems = [
-    { icon: Phone,  lines: ['+91 98765 43210', '+91 91234 56789'] },
-    { icon: Mail,   lines: ['info@packbox.in', 'support@packbox.in'] },
-    { icon: MapPin, lines: ['12, Industrial Area, Sector 5,', 'New Delhi – 110001, India'] },
+    {
+      icon: Phone,
+      lines: [
+        { text: '+91 87705 60198', href: 'tel:+918770560198' },
+        { text: '+91 91115 57774', href: 'tel:+919111557774' },
+      ],
+    },
+    {
+      icon: Mail,
+      lines: [
+        { text: 'Info@uptechwork.com', href: 'mailto:Info@uptechwork.com' },
+      ],
+    },
+    {
+      icon: MapPin,
+      lines: [
+        { text: '12, Industrial Area, Sector 5,' },
+        { text: 'New Delhi – 110001, India' },
+      ],
+    },
   ];
 
   return (
-    <section id="contact" ref={ref} style={{ minHeight: '100vh', display: 'flex', alignItems: 'stretch' }}>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.7 }}
-        style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', width: '100%' }}
-        className="contact-grid"
-      >
+    <section id="contact" style={{ minHeight: '100vh', display: 'flex', alignItems: 'stretch' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', width: '100%' }} className="contact-grid">
+
         {/* LEFT */}
-        <div style={{
+        <Reveal variant="fadeLeft" style={{
           background: '#1E1509', padding: '72px 56px',
           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
           position: 'relative', overflow: 'hidden',
@@ -55,46 +64,47 @@ const Contact = () => {
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(196,180,154,0.05)', pointerEvents: 'none' }} />
 
           <div>
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.1 }}>
+            <Reveal variant="fadeUp" delay={0.1}>
               <h2 style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 900, color: '#FAF7F2', marginBottom: '18px', letterSpacing: '-0.01em', lineHeight: 1.1 }}>
                 GET IN TOUCH
               </h2>
               <p style={{ fontSize: '15px', color: '#A89880', lineHeight: 1.75, marginBottom: '52px', maxWidth: '280px' }}>
                 Need custom packaging for your business? We're here to help you find the perfect solution.
               </p>
-            </motion.div>
+            </Reveal>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }} style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-              {infoItems.map(({ icon: Icon, lines }) => (
-                <div key={lines[0]} style={{ display: 'flex', gap: '18px', alignItems: 'flex-start' }}>
-                  <div style={{ width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0, background: 'rgba(196,180,154,0.1)', border: '1px solid rgba(196,180,154,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon size={18} style={{ color: '#C4B49A' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              {infoItems.map(({ icon: Icon, lines }, idx) => (
+                <Reveal key={lines[0].text ?? lines[0]} variant="fadeUp" delay={0.15 + idx * 0.08}>
+                  <div style={{ display: 'flex', gap: '18px', alignItems: 'flex-start' }}>
+                    <div style={{ width: '42px', height: '42px', borderRadius: '12px', flexShrink: 0, background: 'rgba(196,180,154,0.1)', border: '1px solid rgba(196,180,154,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Icon size={18} style={{ color: '#C4B49A' }} />
+                    </div>
+                    <div style={{ paddingTop: '2px' }}>
+                      {lines.map(l => (
+                        l.href
+                          ? <a key={l.text} href={l.href} style={{ color: '#C4B49A', fontSize: '14px', margin: 0, lineHeight: 1.85, display: 'block', textDecoration: 'none' }}
+                              onMouseEnter={e => e.currentTarget.style.color = '#F5F0E8'}
+                              onMouseLeave={e => e.currentTarget.style.color = '#C4B49A'}
+                            >{l.text}</a>
+                          : <p key={l.text} style={{ color: '#C4B49A', fontSize: '14px', margin: 0, lineHeight: 1.85 }}>{l.text}</p>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ paddingTop: '2px' }}>
-                    {lines.map(l => (
-                      <p key={l} style={{ color: '#C4B49A', fontSize: '14px', margin: 0, lineHeight: 1.85 }}>{l}</p>
-                    ))}
-                  </div>
-                </div>
+                </Reveal>
               ))}
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ duration: 0.6, delay: 0.4 }} style={{ marginTop: '60px' }}>
+          <Reveal variant="fadeIn" delay={0.4} style={{ marginTop: '60px' }}>
             <span style={{ fontSize: '22px', fontWeight: 900, color: '#FAF7F2', letterSpacing: '-0.02em' }}>
-              Pack<span style={{ color: '#C4A882' }}>Box</span><span style={{ color: '#8B6F47', fontSize: '28px' }}>.</span>
+              UpTech<span style={{ color: '#C4A882' }}>Work</span><span style={{ color: '#8B6F47', fontSize: '28px' }}>.</span>
             </span>
-          </motion.div>
-        </div>
+          </Reveal>
+        </Reveal>
 
         {/* RIGHT */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          style={{ background: '#7A6040', padding: '72px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-          className="contact-right"
-        >
+        <Reveal variant="fadeRight" delay={0.1} style={{ background: '#7A6040', padding: '72px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} className="contact-right">
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px', maxWidth: '560px', width: '100%', margin: '0 auto' }}>
             <input
               type="text" name="name" value={formData.name} onChange={handleChange} required
@@ -125,9 +135,9 @@ const Contact = () => {
               Send Message
             </button>
           </form>
-        </motion.div>
+        </Reveal>
 
-      </motion.div>
+      </div>
     </section>
   );
 };

@@ -15,6 +15,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #F5F0E8;
   color: #2C2416;
+  overflow-x: hidden;
 }
 
 /* Placeholder text color for contact form inputs */
@@ -26,6 +27,7 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 @keyframes beigePulse {
@@ -36,6 +38,11 @@ html {
 @keyframes dotBlink {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.35; transform: scale(0.75); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes marqueeLeft {
@@ -66,6 +73,24 @@ html {
 * {
   scrollbar-width: thin;
   scrollbar-color: #C4B49A #EDE8DC;
+}
+
+/* ─── ANIMATION PERFORMANCE ─────────────────────────────────────────── */
+/* GPU-composited layers for animated elements */
+[style*="will-change"] {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Respect user's reduced-motion preference — exclude marquee animations */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.marquee-track):not(.marquee-track *),
+  *:not(.marquee-track)::before,
+  *:not(.marquee-track)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ─── MOBILE RESPONSIVE (max 768px) ─────────────────────────────────── */
@@ -127,16 +152,32 @@ html {
     padding: 48px 28px !important;
   }
 
-  /* Footer → 2 col then stack */
+  /* Footer → brand full-width, quick links + contact side-by-side, follow us full-width */
   .footer-grid {
     grid-template-columns: 1fr 1fr !important;
-    gap: 36px !important;
+    gap: 32px 20px !important;
   }
   .footer-inner {
     padding: 0 20px !important;
   }
   .footer-brand {
     grid-column: 1 / -1 !important;
+    text-align: center !important;
+  }
+  .footer-links {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+  .footer-contact {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+  .footer-contact li {
+    justify-content: flex-start !important;
+  }
+  .footer-follow {
+    grid-column: 1 / -1 !important;
+    align-items: center !important;
   }
 }
 
@@ -144,9 +185,6 @@ html {
   .gallery-grid {
     grid-template-columns: 1fr !important;
     grid-template-rows: repeat(6, 200px) !important;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr !important;
   }
 }
 
@@ -204,5 +242,25 @@ html {
   }
   .gallery-scroll-wrapper {
     scrollbar-width: none !important;
+  }
+}
+
+/* ─── TESTIMONIALS — smaller cards on mobile ────────────────────────── */
+@media (max-width: 768px) {
+  .testimonial-card {
+    width: 260px !important;
+    padding: 20px 18px 18px !important;
+  }
+}
+
+/* ─── VIDEO HERO — mobile fix ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #video-home video {
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  #video-home {
+    overflow: hidden !important;
   }
 }
