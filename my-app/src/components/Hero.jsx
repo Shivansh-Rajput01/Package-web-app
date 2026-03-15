@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight, Package } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Local images — imported so Vite fingerprints & caches them
 import img1 from "../assets/images/img1.jpg";
@@ -16,6 +16,49 @@ const taglines = [
   "Bulk Delivery Ready",
   "Secure Shipping",
 ];
+
+// Words that cycle in the headline with typewriter effect
+const cycleWords = [
+  "Businesses",
+  "Startups",
+  "E-commerce",
+  "Retailers",
+  "Exporters",
+  "D2C Brands",
+  "Wholesalers",
+];
+
+// Typewriter hook — types, holds, erases, moves to next word
+const useTypewriter = (words, typeSpeed = 70, eraseSpeed = 40, holdMs = 1000) => {
+  const [display, setDisplay] = useState('');
+  const [wordIdx, setWordIdx] = useState(0);
+  const [phase, setPhase] = useState('typing');
+  const frame = useRef(null);
+
+  useEffect(() => {
+    const word = words[wordIdx];
+    clearTimeout(frame.current);
+
+    if (phase === 'typing') {
+      if (display.length < word.length) {
+        frame.current = setTimeout(() => setDisplay(word.slice(0, display.length + 1)), typeSpeed);
+      } else {
+        frame.current = setTimeout(() => setPhase('erasing'), holdMs);
+      }
+    } else if (phase === 'erasing') {
+      if (display.length > 0) {
+        frame.current = setTimeout(() => setDisplay(display.slice(0, -1)), eraseSpeed);
+      } else {
+        setWordIdx((i) => (i + 1) % words.length);
+        setPhase('typing');
+      }
+    }
+
+    return () => clearTimeout(frame.current);
+  }, [display, phase, wordIdx]);
+
+  return display;
+};
 
 const slides = [
   { url: img1, title: "Kraft Paper Boxes",      uses: ["Artisan & handmade goods", "Retail gift packaging", "Subscription box inserts", "Eco-conscious brands"] },
@@ -33,7 +76,7 @@ const Hero = () => {
   const [direction, setDirection] = useState(1);
   const [tagIndex, setTagIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
-
+  const typedWord = useTypewriter(cycleWords);
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -90,8 +133,28 @@ const Hero = () => {
             </div>
 
             <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6" style={{ color: '#2C2416' }}>
-              Packaging Boxes for{" "}
-              <span style={{ color: '#2C2416' }}>Modern Businesses</span>
+              Packaging Boxes
+              <br />for Modern
+              <br />
+              {/* Fixed height = font-size so line never collapses when word is empty */}
+              <span style={{
+                display: 'block',
+                height: '1.2em',
+                lineHeight: '1.2em',
+                overflow: 'hidden',
+              }}>
+                {typedWord}
+                <span style={{
+                  display: 'inline-block',
+                  width: '3px',
+                  height: '0.82em',
+                  background: '#8B6F47',
+                  marginLeft: '4px',
+                  verticalAlign: 'middle',
+                  borderRadius: '2px',
+                  animation: 'cursorBlink 0.8s step-end infinite',
+                }} />
+              </span>
             </h1>
             <p className="text-xl leading-relaxed" style={{ color: '#6B5B3E', marginBottom: 0 }}>
               Elevate your brand with durable, eco-friendly packaging solutions.

@@ -63,7 +63,7 @@ const Contact = () => {
           <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '280px', height: '280px', borderRadius: '50%', background: 'rgba(196,180,154,0.07)', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(196,180,154,0.05)', pointerEvents: 'none' }} />
 
-          <div>
+          <div style={{ paddingTop: '60px' }}>
             <Reveal variant="fadeUp" delay={0.1}>
               <h2 style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 900, color: '#FAF7F2', marginBottom: '18px', letterSpacing: '-0.01em', lineHeight: 1.1 }}>
                 GET IN TOUCH

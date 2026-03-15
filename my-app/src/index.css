@@ -7,6 +7,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Re-enable selection only for form inputs */
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 body {
@@ -43,6 +52,11 @@ html {
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
 @keyframes marqueeLeft {
@@ -255,12 +269,15 @@ html {
 
 /* ─── VIDEO HERO — mobile fix ────────────────────────────────────────── */
 @media (max-width: 768px) {
+  #video-home {
+    height: calc(100vh - 80px) !important;
+    margin-top: 80px !important;
+    overflow: hidden !important;
+  }
   #video-home video {
+    object-fit: cover !important;
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
-  }
-  #video-home {
-    overflow: hidden !important;
   }
 }

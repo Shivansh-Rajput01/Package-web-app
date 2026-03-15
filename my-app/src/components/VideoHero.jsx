@@ -16,15 +16,16 @@ const VideoHero = () => {
       style={{
         position: 'relative',
         width: '100%',
-        height: '100vh',
+        height: 'calc(100vh - 80px)',  /* exactly viewport minus navbar */
+        marginTop: '80px',             /* push down below fixed navbar */
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: '#1E1509', // fallback while video loads
+        background: '#1E1509',
       }}
     >
-      {/* Background video — no overlay */}
+      {/* Background video */}
       <video
         autoPlay
         muted
@@ -37,7 +38,7 @@ const VideoHero = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover',
+          objectFit: 'cover',         /* stretch to fill full width */
           objectPosition: 'center center',
           zIndex: 0,
           display: 'block',

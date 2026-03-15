@@ -14,8 +14,17 @@ const Navbar = () => {
 
   // Lock body scroll when menu is open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
   }, [isOpen]);
 
   const scrollToSection = (id) => {
@@ -28,7 +37,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "PRODUCTS", id: "features" },
-    { name: "ABOUT", id: "video-home" },
+    { name: "ABOUT", id: "home" },
     { name: "GALLERY", id: "gallery" },
     { name: "CONTACT", id: "contact" },
   ];
@@ -38,10 +47,11 @@ const Navbar = () => {
       <nav
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          backgroundColor: scrolled ? 'rgba(245,240,232,0.92)' : '#F5F0E8',
+          backgroundColor: scrolled ? 'rgba(245,240,232,0.82)' : 'rgba(245,240,232,0.75)',
           borderBottom: '1px solid #D4C9B0',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          boxShadow: scrolled ? '0 1px 12px rgba(44,36,22,0.06)' : 'none',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          boxShadow: scrolled ? '0 2px 16px rgba(44,36,22,0.08)' : 'none',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between navbar-inner" style={{ paddingLeft: '210px', paddingRight: '110px' }}>
@@ -111,7 +121,9 @@ const Navbar = () => {
               position: 'fixed',
               inset: 0,
               zIndex: 100,
-              backgroundColor: '#1E1509',
+              backgroundColor: 'rgba(22, 13, 4, 0.88)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               display: 'flex',
               flexDirection: 'column',
               padding: '0 32px',
@@ -158,26 +170,27 @@ const Navbar = () => {
             {/* Divider */}
             <div style={{ height: '1px', background: 'rgba(245,240,232,0.12)', flexShrink: 0 }} />
 
-            {/* Nav links */}
+            {/* Nav links — centered */}
             <div style={{
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
+              alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
             }}>
               {navLinks.map((link, i) => (
                 <motion.button
                   key={link.id}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.07, duration: 0.3 }}
                   onClick={() => scrollToSection(link.id)}
                   style={{
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    textAlign: 'left',
+                    textAlign: 'center',
                     color: '#F5F0E8',
                     fontSize: '32px',
                     fontWeight: 800,
@@ -186,6 +199,7 @@ const Navbar = () => {
                     padding: '14px 0',
                     borderBottom: '1px solid rgba(245,240,232,0.08)',
                     lineHeight: 1,
+                    width: '100%',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={e => e.currentTarget.style.color = '#C4A882'}
@@ -196,11 +210,8 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Bottom brand mark */}
-            <div style={{
-              paddingBottom: '40px',
-              flexShrink: 0,
-            }}>
+            {/* Bottom brand mark — centered */}
+            <div style={{ paddingBottom: '40px', flexShrink: 0, textAlign: 'center' }}>
               <p style={{ color: 'rgba(245,240,232,0.3)', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
                 Premium Packaging Solutions
               </p>

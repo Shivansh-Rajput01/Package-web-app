@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, Clock } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, Clock } from 'lucide-react';
 import Reveal from './Reveal';
 
 const Footer = () => {
@@ -9,10 +9,9 @@ const Footer = () => {
 
   const links = ['home', 'features', 'gallery', 'contact'];
   const socials = [
-    { icon: Facebook,  href: '#' },
-    { icon: Twitter,   href: '#' },
-    { icon: Instagram, href: '#' },
-    { icon: Linkedin,  href: '#' },
+    { icon: Facebook,  href: 'https://www.facebook.com/profile.php?id=61577368576674' },
+    { icon: Instagram, href: 'https://www.instagram.com/uptechwork_official?igsh=MXZjNDhpMm13cmlkMQ==' },
+    { icon: Linkedin,  href: 'https://www.linkedin.com/company/uptechwork/' },
   ];
 
   return (
@@ -85,10 +84,12 @@ const Footer = () => {
               Follow Us
             </h4>
             <div style={{ display: 'flex', gap: '12px' }}>
-              {socials.map(({ icon: Icon, href }) => (
+              {socials.map(({ icon: Icon, href }, idx) => (
                 <a
-                  key={href + Icon.name}
+                  key={idx}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ width: '42px', height: '42px', borderRadius: '12px', background: '#2C2416', border: '1px solid #3D3020', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#A89880', transition: 'background 0.2s, color 0.2s, border-color 0.2s' }}
                   onMouseEnter={e => { e.currentTarget.style.background = '#3D3020'; e.currentTarget.style.color = '#C4A882'; e.currentTarget.style.borderColor = '#C4A882'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = '#2C2416'; e.currentTarget.style.color = '#A89880'; e.currentTarget.style.borderColor = '#3D3020'; }}
