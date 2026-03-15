@@ -16,8 +16,8 @@ const VideoHero = () => {
       style={{
         position: 'relative',
         width: '100%',
-        height: 'calc(100vh - 80px)',  /* exactly viewport minus navbar */
-        marginTop: '80px',             /* push down below fixed navbar */
+        height: 'calc(100vh - 56px)',  /* exactly viewport minus navbar */
+        marginTop: '56px',             /* push down below fixed navbar */
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',

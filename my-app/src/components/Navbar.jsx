@@ -54,7 +54,7 @@ const Navbar = () => {
           boxShadow: scrolled ? '0 2px 16px rgba(44,36,22,0.08)' : 'none',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between navbar-inner" style={{ paddingLeft: '210px', paddingRight: '110px' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between navbar-inner" style={{ paddingLeft: '210px', paddingRight: '110px' }}>
 
           <button
             onClick={() => scrollToSection("video-home")}
@@ -134,7 +134,7 @@ const Navbar = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              height: '80px',
+              height: '56px',
               flexShrink: 0,
             }}>
               <button
